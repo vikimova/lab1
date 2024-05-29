@@ -15,6 +15,6 @@
 ## Объекты
 ### Описание:
 
-![](./imgs/activity_4.png) 
+![](./imgs/object.png) 
 
-[File](./diagrams_raw/activity_4.plantuml) 
+[File](./diagrams_raw/object.plantuml) 
