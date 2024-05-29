@@ -2,18 +2,20 @@
 !theme mars
 left to right direction
 
-state "Move to a new position" as up
-state "Decrease health" as rp
-state "Swap enemy position with user" as swp
+state "Press key" as pk
+state "Update position" as up
 state c <<choice>>
+state c2 <<choice>>
 state "Redraw screen" as rd
+state "Move to a new position" as mtp
 
-[*] --> up
+[*] --> pk
+pk --> c2
+c2 --> up: "Key is an arrow key"
+c2 --> [*]: "Key is not an arrow key"
 up --> c
-c --> rp: "Enemy on tile"
-rp --> swp
-c --> rd: "No enemy on tile"
-swp --> rd
-rd --> [*]
+c --> mtp: "Wall on tile"
+c --> [*]: "No wall on tile"
+mtp->rd
+rd->[*]
 @enduml
-
