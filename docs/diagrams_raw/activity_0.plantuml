@@ -1,0 +1,16 @@
+@startuml
+!theme mars
+
+start
+:Pressing arrow key;
+:Update user position;
+if (No wall on new position) then (yes);
+:apply position;
+else (no);
+:Decline position;
+endif;
+:Update screen;
+stop
+
+@enduml
+

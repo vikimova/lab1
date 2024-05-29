@@ -1,0 +1,23 @@
+@startuml
+!theme mars
+
+
+start
+:Player moved;
+if (Enemy on new position) then (yes);
+:Swap user and enemy positions;
+:Substract points from health;
+else (no);
+endif;
+:Update screen;
+if (Health == 0) then (yes);
+:Show loose screen;
+:Exit game;
+else (no);
+
+endif;
+stop;
+
+
+@enduml
+

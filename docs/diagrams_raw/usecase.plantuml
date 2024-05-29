@@ -1,0 +1,47 @@
+@startuml
+!theme mars
+
+left to right direction
+
+actor User
+
+
+(Press key) as pk
+
+
+package Game {
+  actor Enemy
+  (Get damage) as gd
+  (Quit the game) as qtg
+  (Move to random position) as grp
+  (Swap position with enemy) as swp
+  (Update position) as up
+    package Screen {
+      (Redraw screen) as rds
+      (Show message) as sm
+      (Show loose message) as sbm
+      (Show win message) as swm
+    }
+}
+
+
+User -> gd
+User -> pk
+Enemy -> grp
+Enemy -> swp
+
+sbm .> sm: <<extends>>
+swm .> sm: <<extends>>
+sm .> gd: <<extends>>
+
+
+grp .> up: <<include>>
+grp .> rds: <<include>>
+
+pk .> up: <<include>>
+pk .> rds: <<include>>
+gd .> swp: <<include>>
+
+qtg .> sm: <<include>>
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+!theme mars
+
+
+start
+:Generate random enemy position;
+:Update enemy position;
+if (No wall on new position) then (yes);
+:apply position;
+else (no);
+:Decline position;
+endif;
+:Update screen;
+stop
+
+
+@enduml
+

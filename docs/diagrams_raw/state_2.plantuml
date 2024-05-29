@@ -1,0 +1,18 @@
+@startuml
+!theme mars
+
+left to right direction
+
+state "Move to a new position" as up
+state "Show win scren" as sc
+state "Exit game" as eg
+state c <<choice>>
+
+[*] --> up
+up --> c
+c-->sc: "Door on tile"
+c-->[*]: "No door on tile"
+sc --> eg
+eg --> [*]
+
+@enduml

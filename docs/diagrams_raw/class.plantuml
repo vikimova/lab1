@@ -1,0 +1,83 @@
+@startuml
+!theme mars
+
+class Entity {
+  + static const char symbol
+  + int pos_x
+  + int pos_y
+  + void update_position(int new_x, int new_y, char **map, int map_height, int map_width)
+  + static bool is_entity_by_symbol(char symbol)
+}
+
+class Wall  {
+  + static const char symbol
+  + int pos_x
+  + int pos_y
+  + void update_position(int new_x, int new_y, char **map, int map_height, int map_width)
+  + static bool is_entity_by_symbol(char symbol)
+}
+
+class Door {
+  + static const char symbol
+  + int pos_x
+  + int pos_y
+  + void update_position(int new_x, int new_y, char **map, int map_height, int map_width)
+  + static bool is_entity_by_symbol(char symbol)
+}
+
+class Enemy {
+  + static const char symbol
+  + int pos_x
+  + int pos_y
+  + void update_position(int new_x, int new_y, char **map, int map_height, int map_width)
+  + static bool is_entity_by_symbol(char symbol)
+  + std::tuple<int, int> generate_random_position()
+}
+
+class Player {
+  + int health
+  + static const char symbol
+  + int pos_x
+  + int pos_y
+  + void update_position(int new_x, int new_y, char **map, int map_height, int map_width)
+  + static bool is_entity_by_symbol(char symbol)
+  + bool is_dead()
+  + void reduce_health(int delta = 5)
+}
+
+class Game {
+	+ int board_width
+	+ int board_height
+	+ char **dungeon
+	+ std::vector<std::tuple<int, int>> enemies
+	+ std::tuple<int, int> exit_door
+	+ Player player
+
+	+ void print_dungeon()
+	+ void handle_event(char pressed_c)
+	+ std::tuple<int, int> get_player_move_by_key(char c)
+	+ void shuffle_enemies()
+
+	- std::tuple<int, int> get_rand_direction(int current_x, int current_y)
+	- int fill_dungeon()
+}
+
+class Screen {
+	+ Game game
+	+ void print_game()
+}
+
+
+Game "1" --* Player: "1"
+Game --> Door
+Game --> Wall
+Game --> Enemy
+
+Screen --> Game
+
+Wall --|> Entity
+Door --|> Entity
+Enemy --|> Entity
+Player --|> Entity
+
+@enduml

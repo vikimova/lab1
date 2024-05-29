@@ -1,0 +1,16 @@
+@startuml
+!theme mars
+
+
+start
+:Player moved;
+if (Door on position) then (yes);
+:Show win screen;
+:Exit game;
+else (no);
+endif;
+stop;
+
+
+@enduml
+

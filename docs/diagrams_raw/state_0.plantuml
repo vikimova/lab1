@@ -1,0 +1,18 @@
+@startuml
+!theme mars
+
+state "Move to a new position" as up
+state "Subtract from health" as rp
+state "Swap positions with user" as swp
+state "Redraw screen" as rd
+state c <<choice>>
+
+[*] --> up
+up --> c
+c --> rd: "No enemy on tile"
+c --> rp: "Enemy on tile"
+rp --> swp
+swp --> rd
+rd --> [*]
+@enduml
+

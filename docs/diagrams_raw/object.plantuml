@@ -1,0 +1,61 @@
+@startuml
+!theme mars
+
+object entity {
+  + static const char symbol = '?'
+  + int pos_x = 12
+  + int pos_y = 13
+}
+
+object wall  {
+  + static const char symbol = '.'
+  + int pos_x = 0
+  + int pos_y = 0
+}
+
+object door {
+  + static const char symbol = '#'
+  + int pos_x = 0
+  + int pos_y = 20
+}
+
+object enemy {
+  + static const char symbol = '@'
+  + int pos_x = 12
+  + int pos_y = 13
+}
+
+object player {
+  + int health = 100
+  + static const char symbol = '%'
+  + int pos_x = 30
+  + int pos_y = 21
+}
+
+object game {
+	+ int board_width = 40
+	+ int board_height = 40
+	+ char **dungeon = {{'.', '#', '.', ...}, {'.', '%', '.', ...}, ...}
+	+ std::vector<std::tuple<int, int>> enemies = {{12, 13}, {1, 0}, ...}
+	+ std::tuple<int, int> exit_door = {0, 1}
+	+ player player = Player(30, 21)
+}
+
+object screen {
+	+ game game
+}
+
+
+game "1" --* player: "1"
+game --> door
+game --> wall
+game --> enemy
+
+screen --> game
+
+wall --|> entity
+door --|> entity
+enemy --|> entity
+player --|> entity
+
+@enduml

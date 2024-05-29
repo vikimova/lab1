@@ -1,0 +1,13 @@
+@startuml
+!theme mars
+
+
+start
+:Player entered the door;
+:Show win screen;
+:Exit game;
+stop;
+
+
+@enduml
+
