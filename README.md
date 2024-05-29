@@ -11,6 +11,9 @@ $ make run
 ```
 
 [Функциональные модели](./docs/functions.md) 
+
 [Структурные модели](./docs/struct.md) 
+
 [Поведенческие модели](./docs/behavior.md)
+
 [Тестирование](./docs/tests.md) 
