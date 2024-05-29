@@ -2,7 +2,7 @@
 
 ## State 0
 
-[](./imgs/state_0.png) 
+[](./imgs/state_0.png?raw=true)
 
 [File](./diagrams_raw/state_0.plantuml) 
 
