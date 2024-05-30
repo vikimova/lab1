@@ -161,7 +161,6 @@ bool Player::is_dead() {
 }
 
 void Player::reduce_health(int delta) {
-	std::cout << this->health << "LKSDJFLKSDJF\n";
 	if (is_dead() == true) {
 		print_title((char *)"You lost!");
 		exit(0);
@@ -196,7 +195,6 @@ void Player::update_position(int new_x, int new_y, char **map, int map_height, i
 	if (tile == WALL_S) {
 		return;
 	} else if (tile == ENEMY_S) {
-		std::cout << "FUCK\n";
 		x = this->pos_x;
 		y = this->pos_y;
 		map[y][x] = Enemy::symbol;
@@ -434,7 +432,7 @@ int run_game_loop() {
 	while (true) {
 		sleep_mil(100);
 
-		screen.print_game();
+		game.print_dungeon();
 
 		game.handle_event(
 			getchar()
