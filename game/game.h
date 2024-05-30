@@ -13,6 +13,8 @@ void print_title(char *title);
 
 void sleep_mil(int millis);
 
+#ifndef ENTITY
+#define ENTITY
 
 class Entity {
 public:
@@ -31,6 +33,11 @@ public:
 	
 };
 
+#endif // !ENTITY
+
+
+#ifndef WALL
+#define WALL
 
 class Wall : public Entity {
 public:
@@ -38,15 +45,21 @@ public:
 
 	using Entity::Entity;
 };
+#endif // !WALL
 
+#ifndef DOOR
+#define DOOR
 class Door : public Entity {
 public:
 	static const char symbol = '#';
 
 	using Entity::Entity;
 };
+#endif // !DOOR
 
 
+#ifndef ENEMY
+#define ENEMY
 class Enemy : public Entity {
 public:
 	static const char symbol = '@';
@@ -58,6 +71,10 @@ public:
 
 	void update_position(int new_x, int new_y, char **map, int map_height, int map_width);
 };
+#endif // !ENEMY
+
+#ifndef PLAYER
+#define PLAYER
 
 class Player : public Entity {
 public:
@@ -75,8 +92,11 @@ public:
 
 	void update_position(int new_x, int new_y, char **map, int map_height, int map_width);
 };
+#endif // !PLAYER
 
 
+#ifndef GAME
+#define GAME
 class Game {
 public:
 	int board_width;
@@ -105,7 +125,10 @@ private:
 
 	int fill_dungeon();
 };
+#endif // !GAME
 
+#ifndef SCREEN
+#define SCREEN
 class Screen {
 public:
 	Game game;
@@ -114,5 +137,6 @@ public:
 
 	void print_game();
 };
+#endif // !SCREEN
 
 int run_game_loop();
