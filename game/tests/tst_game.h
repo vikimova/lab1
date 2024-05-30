@@ -138,3 +138,35 @@ TEST(playerMoves, DoorOnTile) {
 
 	ASSERT_EQ(g.dungeon[0][2], '%');
 }
+
+
+TEST(playerMoves, NotAnArrowKey) {
+	char **map_ = new char*[5];
+
+	for (int i=0;i<5;i++) {
+		map_[i] = new char[5];
+	}
+
+	for (int i=0;i<5;i++) {
+		for (int j=0;j<5;j++) {
+			map_[i][j] = '.';
+		}
+	}
+
+	map_[0][2] = '#';
+	map_[1][2] = '.';
+	map_[2][2] = '%';
+
+	Player p(2, 2);
+
+	Game g{};
+	g.dungeon = map_;
+	g.board_width = 5;
+	g.board_height = 5;
+	g.player = p;
+
+	g.handle_event('g');
+
+	ASSERT_EQ(g.dungeon[1][2], '.');
+	ASSERT_EQ(g.dungeon[2][2], '%');
+}
