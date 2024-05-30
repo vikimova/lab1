@@ -139,7 +139,7 @@ void Enemy::update_position(int new_x, int new_y, char **map, int map_height, in
 
 	char element = map[new_x][new_y];
 
-	if (Wall::is_entity_by_symbol(element) == false) {
+	if (element != WALL_S) {
 		this->pos_x = new_x;
 		this->pos_y = new_y;
 	}
