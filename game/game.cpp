@@ -161,6 +161,7 @@ bool Player::is_dead() {
 }
 
 void Player::reduce_health(int delta) {
+	std::cout << this->health << "LKSDJFLKSDJF\n";
 	if (is_dead() == true) {
 		print_title((char *)"You lost!");
 		exit(0);
@@ -170,26 +171,47 @@ void Player::reduce_health(int delta) {
 }
 
 void Player::update_position(int new_x, int new_y, char **map, int map_height, int map_width) {
-	if ((new_x >= map_width) || (new_x <= 0)) {
-		return;
-	}
-	if ((new_y >= map_height) || (new_y <= 0)) {
-		return;
-	}
+	int x, y;
 
 	char tile = map[new_y][new_x];
+
+	if ((new_x >= map_width) || (new_x <= 0)) {
+		if (tile == EXIT_S) {
+			print_title((char *)"You win!");
+			exit(0);
+		} else {
+			return;
+		}
+	}
+	if ((new_y >= map_height) || (new_y <= 0)) {
+		if (tile == EXIT_S) {
+			print_title((char *)"You win!");
+			exit(0);
+		} else {
+			return;
+		}
+	}
+
 	
-	if (Wall::is_entity_by_symbol(tile) == true) {
+	if (tile == WALL_S) {
 		return;
-	} else if (Enemy::is_entity_by_symbol(tile) == true) {
-		map[this->pos_y][this->pos_x] = Enemy::symbol;
+	} else if (tile == ENEMY_S) {
+		std::cout << "FUCK\n";
+		x = this->pos_x;
+		y = this->pos_y;
+		map[y][x] = Enemy::symbol;
 		reduce_health();
 	} else {
-		map[this->pos_y][this->pos_x] = FLOOR_S;
+		x = this->pos_x;
+		y = this->pos_y;
+		map[y][x] = FLOOR_S;
 	}
 
 	this->pos_x = new_x;
 	this->pos_y = new_y;
+
+	map[this->pos_y][this->pos_x] = PLAYER_S;
+
 }
 
 
@@ -260,7 +282,6 @@ void Game::handle_event(char pressed_c) {
 		this->dungeon,
 		this->board_height, this->board_width
 	);
-	
 }
 
 std::tuple<int, int> Game::get_player_move_by_key(char c) {
