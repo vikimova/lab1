@@ -34,6 +34,7 @@ int gfp(std::tuple<int, int> tup, int indx) {
 }
 
 bool roll_dice(int expect, int total) {
+	// подбрасывание кубика
     int roll = randint(1, total);
     return roll == expect;
 }
@@ -43,12 +44,13 @@ std::tuple<int, int> get_pads(int w, int h) {
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &win);
 
 	int pad_w, pad_h;
-	int tw = win.ws_col;
-	int th = win.ws_row;
-	int bw = w;
-	int bh = h;
+	int tw = win.ws_col;  // получаем ширину терминала
+	int th = win.ws_row;  // получаем высоту терминала
+	int bw = w; // ширина блока текста
+	int bh = h; // высота блока текста
 
     if (tw > bw) {
+		// если блок текста влезает терминал - делаем рамки по разнице между размерами текста и окна
         pad_w = (tw-bw)/2;
 	} else {
         pad_w = 0;
@@ -65,25 +67,31 @@ std::tuple<int, int> get_pads(int w, int h) {
 
 
 void print_title(char *title) {
+	// вывод текста
 
+	// получение длина
 	int title_len = sizeof(title)/sizeof(char);
 
+	// получение отступов
 	std::tuple<int, int> pads = get_pads(title_len, 1);
 
 	int pad_x = std::get<0>(pads);
 	int pad_y = std::get<1>(pads);
 
+	// вывод отступов
 	std::cout << "\033[2J";
 	for (int i=0;i<pad_y;i++) {
 		std::cout << std::endl;
 	}
 
+	// вывод отступов
 	for (int i=0;i<pad_x;i++) {
 		std::cout << " ";
 	}
 
 	std::cout << title;
 
+	// вывод отступов
 	std::cout << std::endl;
 	for (int i=0;i<pad_y;i++) {
 		std::cout << std::endl;
@@ -129,13 +137,19 @@ bool Entity::is_entity_by_symbol(char symbol) {
 std::tuple<int, int> Enemy::generate_random_position() {
 	int new_x = this->pos_x + randint(-1, 1);
 	int new_y = this->pos_y + randint(-1, 1);
+	// случайная позиция = любая случайная следующая ячейка вокруг текущей
+	// . . .
+	// . x .
+	// . . .
 	return std::make_tuple(new_x, new_y);
 }
 
 void Enemy::update_position(int new_x, int new_y, char **map, int map_height, int map_width) {
+	// проверка на попадание на границы поля
 	if ((new_x >= map_width) || (new_x <= 0)) {
 		return;
 	}
+	// проверка на попадание на границы поля
 	if ((new_y >= map_height) || (new_y <= 0)) {
 		return;
 	}
@@ -227,12 +241,14 @@ Game::Game() {
 		dungeon[i] = new char[board_width];
 	}
 
+	// создаем матрицу поля из стен
 	for (int i=0;i<board_height;i++) {
 		for (int j=0;j<board_width;j++) {
 			dungeon[i][j] = WALL_S;
 		}
 	}
 
+	// заполняем поле сущностями
 	fill_dungeon();
 }
 Game::~Game() {}
@@ -307,6 +323,7 @@ std::tuple<int, int> Game::get_player_move_by_key(char c) {
 
 void Game::shuffle_enemies() {
 	for (int i=0;i<this->enemies.size(); i++) {
+		// текущая позиция врага
 		int ex = gfp(this->enemies[i], 0);
 		int ey = gfp(this->enemies[i], 1);
 
@@ -323,6 +340,7 @@ void Game::shuffle_enemies() {
 		);
 
 
+		// если позиция помнялась - перемещаем врага, обновляем прошлую его позицию на пол
 		if (ex != e.pos_x || ey != e.pos_y) {
 			this->enemies[i] = {e.pos_x, e.pos_y};
 			this->dungeon[e.pos_y][e.pos_x] = ENEMY_S;
@@ -338,6 +356,7 @@ std::tuple<int, int> Game::get_rand_direction(int current_x, int current_y) {
 	int new_x = current_x + delta_x;
 	int new_y = current_y + delta_y;
 
+	// если не попадаем на границу - меняем коодинату
 	if (new_x >= this->board_width-1 || new_x <= 0) {
 		new_x = current_x;
 	}
@@ -349,9 +368,12 @@ std::tuple<int, int> Game::get_rand_direction(int current_x, int current_y) {
 };
 
 int Game::fill_dungeon() {
+	// максимальное число пустых клеток на поле
 	int max_floors = this->board_width*this->board_height/2.5;
+	// счетчик выставленных пустых клеток (полов)
 	int num_of_floors = 1;
 
+	// начальная точка генерации поля
 	int x = randint(1, this->board_width-2);
 	int y = randint(1, this->board_height-2);
 
@@ -360,30 +382,44 @@ int Game::fill_dungeon() {
 
 	std::vector<std::tuple<int, int>> enemies;
 
+	// пока счетчик не равен максимальному числу полов
+	//  генерируем случайную позицию
+	//  если на позиции стена - заменяем на пол
 	while (num_of_floors < max_floors) {
 		std::tuple<int, int> coords = get_rand_direction(x, y);
+
 		x = gfp(coords, 0);
 		y = gfp(coords, 1);
+
 		if (this->dungeon[y][x] == WALL_S) {
 			this->dungeon[y][x] = FLOOR_S;
+
+			// если на 15-ти-граннике выпала тройка - ставим врага в точку и добавляем в список
 			if (roll_dice(3, 15) == true) {
 				this->dungeon[y][x] = ENEMY_S;
 				enemies.push_back({x, y});
 			}
+
 			num_of_floors += 1;
 		}
 	}
 
 	std::tuple<int, int> exit_pos;
 
+	// проходимся по границам карты
+	// если в соседней внутренней ячейке пол - ставим дверь и завершаем циклы
 	for (int yy = 0; yy < this->board_height; yy++) {
 		int f = 0;
 		for (int xx=0; xx<this->board_width; xx++) {
 			if (yy != 0 && yy != this->board_height-1) {
+				// . . . .
+				// . x x . <-- мы тут => пропускаем, т.к. не границы
+				// . . . . 
 				if (xx != 0 && x != this->board_width-1) {
 					continue;
 				}
 			}
+			// соседняя не граничная ячейка
 			char neighbour;
 			if (yy == 0) {
 				neighbour = this->dungeon[yy+1][xx];
@@ -430,25 +466,16 @@ void Screen::print_game() {
 	this->game.print_dungeon();
 }
 
-int kbhit() {
-    int ch = getch();
-    if (ch != ERR) {
-        ungetch(ch);
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 
 int run_game_loop() {
+	// предварительные настройки ncurses для печати и захвата клавиш
 	initscr();
     cbreak();
     noecho();
     nodelay(stdscr, TRUE);
     scrollok(stdscr, TRUE);
 
-	char c;
+	char c; // текущая нажатая клавиша
 	Game game;
 	Screen screen(game);
 

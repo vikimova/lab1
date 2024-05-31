@@ -1,21 +1,28 @@
 #include <tuple>
 #include <vector>
 
+// функция получения случйного целого в диапазоне
 int randint(int from_, int to_);
 
+// get from pair - функция получения элемента двумерного кортежа
 int gfp(std::tuple<int, int> tup, int indx);
 
+// функция иммитации подбрасывания кубика - нужна для генерации врагов с определенной вероятностью в случайные позиции
 bool roll_dice(int expect, int total);
 
+// функция получения отступов для блока текста в терминале
 std::tuple<int, int> get_pads(int w, int h);
 
+// функция вывода заголовка в терминал
 void print_title(char *title);
 
+// функция sleep в миллисекундах
 void sleep_mil(int millis);
 
 #ifndef ENTITY
 #define ENTITY
 
+// класс сущности
 class Entity {
 public:
 	explicit Entity();
@@ -23,6 +30,7 @@ public:
 	~Entity();
 
 	static const char symbol = '?';
+	// символ сущности на игровом поле
 
 	int pos_x;
 	int pos_y;
