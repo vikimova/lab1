@@ -1,6 +1,7 @@
 # Функциональные возможности:
 
 ![](./imgs/usecase.png?raw=true)
+
 [File](./diagrams_raw/usecase.plantuml) 
 
 ## Пользователь может передвигаться по карте
@@ -14,7 +15,8 @@
 
 3. Отрисовка карты
 
-[Use case](./imgs/activity_0.png) 
+![](./imgs/activity_0.png?raw=true)
+
 [File](./diagrams_raw/activity_0.plantuml) 
 
 ## Враги могут передвигаться по карте
@@ -27,7 +29,8 @@
 
 2. Отрисовка карты
 
-[Use case](./imgs/activity_1.png) 
+![](./imgs/activity_1.png?raw=true)
+
 [File](./diagrams_raw/activity_1.plantuml) 
 
 
@@ -47,7 +50,8 @@
 
     2.2. Выйти из игры
 
-[Use case](./imgs/activity_2.png) 
+![](./imgs/activity_2.png?raw=true)
+
 [File](./diagrams_raw/activity_2.plantuml) 
 
 
@@ -61,7 +65,8 @@
 
     1.1.2. Выйти из игры
 
-[Use case](./imgs/activity_3.png) 
+![](./imgs/activity_3.png?raw=true)
+
 [File](./diagrams_raw/activity_3.plantuml) 
 
 
@@ -73,7 +78,8 @@
 
     1.2. Выйти из игры
 
-[Use case](./imgs/activity_4.png) 
+![](./imgs/activity_4.png?raw=true)
+
 [File](./diagrams_raw/activity_4.plantuml) 
 
 
@@ -85,5 +91,6 @@
 
     1.2. Выйти из игры
 
-[Use case](./imgs/activity_5.png) 
+![](./imgs/activity_5.png?raw=true)
+
 [File](./diagrams_raw/activity_5.plantuml) 
