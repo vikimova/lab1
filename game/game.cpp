@@ -237,8 +237,8 @@ void Player::update_position(int new_x, int new_y, char **map, int map_height, i
 
 
 Game::Game() {
-	board_width = randint(15, 20);
-	board_height = randint(30, 40);
+	board_width = randint(15, 30);
+	board_height = randint(15, 30);
 	clock = 0;
 
 	dungeon = new char*[board_height];
@@ -406,7 +406,7 @@ int Game::fill_dungeon() {
 			this->dungeon[y][x] = FLOOR_S;
 
 			// если на 15-ти-граннике выпала тройка - ставим врага в точку и добавляем в список
-			if (roll_dice(3, 15) == true) {
+			if (roll_dice(3, 30) == true) {
 				this->dungeon[y][x] = ENEMY_S;
 				enemies.push_back({x, y});
 			}
