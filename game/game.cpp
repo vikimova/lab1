@@ -1,12 +1,15 @@
-#include "game.h"
-
 #include <iostream>
 #include <random>
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+//#include <cstring>
 #include <chrono>
 #include <thread>
+#include <ncurses.h>
+
+#include "game.h"
+
 
 
 const char WALL_S = '.';
@@ -137,7 +140,7 @@ void Enemy::update_position(int new_x, int new_y, char **map, int map_height, in
 		return;
 	}
 
-	char element = map[new_x][new_y];
+	char element = map[new_y][new_x];
 
 	if (element != WALL_S) {
 		this->pos_x = new_x;
@@ -161,12 +164,7 @@ bool Player::is_dead() {
 }
 
 void Player::reduce_health(int delta) {
-	if (is_dead() == true) {
-		print_title((char *)"You lost!");
-		exit(0);
-	} else {
-		this->health -= delta;
-	}
+	this->health -= delta;
 }
 
 void Player::update_position(int new_x, int new_y, char **map, int map_height, int map_width) {
@@ -198,7 +196,13 @@ void Player::update_position(int new_x, int new_y, char **map, int map_height, i
 		x = this->pos_x;
 		y = this->pos_y;
 		map[y][x] = Enemy::symbol;
+
 		reduce_health();
+
+		if (is_dead() == true) {
+			print_title((char *)"You lost!");
+			exit(0);
+		}
 	} else {
 		x = this->pos_x;
 		y = this->pos_y;
@@ -239,25 +243,30 @@ void Game::print_dungeon() {
 	int pad_x = gfp(pads, 0);
 	int pad_y = gfp(pads, 1);
 
+	clear();
+
 	for (int i=0;i<pad_y;i++) {
-		std::cout << std::endl;
+		printw("\n");
 	}
+	
 	for (int i=0;i<this->board_height;i++) {
 		for (int k=0; k < pad_x; k++) {
-			std::cout << " ";
+			printw(" ");
 		}
 		for (int j=0;j<this->board_width;j++) {
-			std::cout << " " << this->dungeon[i][j];
+			printw(" %c", this->dungeon[i][j]);
 		}
-		std::cout << std::endl;
+		printw("\n");
 	}
-	std::cout << std::endl;
+
+	printw("\n");
 	for (int k=0; k < pad_x; k++) {
-		std::cout << " ";
+		printw(" ");
 	}
-	std::cout << "Health: " << this->player.health<< std::endl;
+
+	printw("Health: %d\n", this->player.health);
 	for (int i=0;i<pad_y;i++) {
-		std::cout << std::endl;
+		printw("\n");
 	}
 }
 
@@ -319,8 +328,6 @@ void Game::shuffle_enemies() {
 			this->dungeon[e.pos_y][e.pos_x] = ENEMY_S;
 			this->dungeon[ey][ex] = FLOOR_S;
 		}
-
-
 	}
 }
 
@@ -423,20 +430,36 @@ void Screen::print_game() {
 	this->game.print_dungeon();
 }
 
+int kbhit() {
+    int ch = getch();
+    if (ch != ERR) {
+        ungetch(ch);
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 
 int run_game_loop() {
+	initscr();
+    cbreak();
+    noecho();
+    nodelay(stdscr, TRUE);
+    scrollok(stdscr, TRUE);
+
 	char c;
 	Game game;
 	Screen screen(game);
 
 	while (true) {
-		sleep_mil(100);
-
 		game.print_dungeon();
 
-		game.handle_event(
-			getchar()
-		);
+		c  = getch();
+		game.handle_event(c);
+
+		sleep_mil(100);
+
 		game.shuffle_enemies();
 	}
 	return 0;

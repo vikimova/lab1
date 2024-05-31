@@ -1,5 +1,5 @@
 all:
-	g++ main.cpp game.cpp -o game.o -lncurses
+	g++ -Wall main.cpp game.cpp -o game.o -lncurses 
 run:
 	./game.o
 test:
