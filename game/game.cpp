@@ -97,7 +97,7 @@ void print_title(char *title) {
 		std::cout << std::endl;
 	}
 
-	sleep_mil(10);
+	//sleep_mil(10);
 }
 
 
@@ -239,6 +239,7 @@ void Player::update_position(int new_x, int new_y, char **map, int map_height, i
 Game::Game() {
 	board_width = randint(15, 20);
 	board_height = randint(30, 40);
+	clock = 0;
 
 	dungeon = new char*[board_height];
 
@@ -264,7 +265,7 @@ void Game::print_dungeon() {
 	int pad_x = gfp(pads, 0);
 	int pad_y = gfp(pads, 1);
 
-	clear();
+	erase();
 
 	for (int i=0;i<pad_y;i++) {
 		printw("\n");
@@ -292,6 +293,7 @@ void Game::print_dungeon() {
 }
 
 void Game::handle_event(char pressed_c) {
+	print_dungeon();
 
 	if (pressed_c == 'q') {
 		endwin();
@@ -309,8 +311,11 @@ void Game::handle_event(char pressed_c) {
 		this->board_height, this->board_width
 	);
 
-	print_dungeon();
-	shuffle_enemies();
+	this->clock += 1;
+	if (this->clock == 600) {
+		shuffle_enemies();
+		this->clock = 0;
+	}
 }
 
 std::tuple<int, int> Game::get_player_move_by_key(char c) {
@@ -481,19 +486,12 @@ int run_game_loop() {
     nodelay(stdscr, TRUE);
     scrollok(stdscr, TRUE);
 
-	char c; // текущая нажатая клавиша
 	Game game;
 	Screen screen(game);
 
 	while (true) {
-		//game.print_dungeon();
+		game.handle_event(getch());
 
-		c  = getch();
-		game.handle_event(c);
-
-		sleep_mil(100);
-
-		//game.shuffle_enemies();
 	}
 	return 0;
 }

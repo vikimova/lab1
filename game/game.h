@@ -109,6 +109,7 @@ class Game {
 public:
 	int board_width;
 	int board_height;
+	int clock;
 
 	char **dungeon;
 
