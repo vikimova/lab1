@@ -1,6 +1,6 @@
 # Функциональные возможности:
 
-[Use case](./imgs/usecase) 
+![Use case](./imgs/usecase)
 [File](./diagrams_raw/usecase.plantuml) 
 
 ## Пользователь может передвигаться по карте
