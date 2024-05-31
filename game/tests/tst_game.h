@@ -31,9 +31,17 @@ TEST(playerMoves, NothingOnTile) {
 	map_[1][2] = ' ';
 	map_[2][2] = '%';
 
+	// делаем карту 5 на 5
+	// . . # . . - дверь
+	// . .   . . - пол
+	// . . % . . - игрок
+	// . . . . .
+	// . . . . .
+
 	Player p(2, 2);
 
 	Game g{};
+	// меняем сгенерированные значения на наши
 	g.dungeon = map_;
 	g.board_width = 5;
 	g.board_height = 5;
@@ -42,6 +50,12 @@ TEST(playerMoves, NothingOnTile) {
 	g.handle_event('A');
 
 	ASSERT_EQ(map_[1][2], '%');
+	// проверяем на перемещение
+	// . . # . . - дверь
+	// . . % . . - пол
+	// . .   . . - игрок
+	// . . . . .
+	// . . . . .
 }
 
 TEST(playerMoves, WallOnTile) {
@@ -61,6 +75,13 @@ TEST(playerMoves, WallOnTile) {
 	map_[1][2] = '.';
 	map_[2][2] = '%';
 
+	// делаем карту 5 на 5
+	// . . # . . - дверь
+	// . . . . . - стена
+	// . . % . . - игрок
+	// . . . . .
+	// . . . . .
+
 	Player p(2, 2);
 
 	Game g{};
@@ -73,6 +94,12 @@ TEST(playerMoves, WallOnTile) {
 
 	ASSERT_EQ(g.dungeon[1][2], '.');
 	ASSERT_EQ(g.dungeon[2][2], '%');
+	// проверяем на не перемещение игрока
+	// . . # . . - дверь
+	// . . . . . - стена
+	// . . % . . - игрок
+	// . . . . .
+	// . . . . .
 }
 
 TEST(playerMoves, EnemyOnTile) {
@@ -92,6 +119,13 @@ TEST(playerMoves, EnemyOnTile) {
 	map_[1][2] = '@';
 	map_[2][2] = '%';
 
+	// делаем карту 5 на 5
+	// . . # . . - дверь
+	// . . @ . . - враг
+	// . . % . . - игрок
+	// . . . . .
+	// . . . . .
+
 	Player p(2, 2);
 
 	Game g{};
@@ -105,6 +139,13 @@ TEST(playerMoves, EnemyOnTile) {
 	ASSERT_EQ(g.dungeon[1][2], '%');
 	ASSERT_EQ(g.dungeon[2][2], '@');
 	ASSERT_EQ(g.player.health, 95);
+	// проверяем что игрок поменялся с врагом местами и получил урон
+	// . . # . . - дверь
+	// . . % . . - игрок
+	// . . @ . . - враг
+	// . . . . .
+	// . . . . .
+
 }
 
 
@@ -125,6 +166,13 @@ TEST(playerMoves, DoorOnTile) {
 	map_[1][2] = '%';
 	map_[2][2] = ' ';
 
+	// делаем карту 5 на 5
+	// . . # . . - дверь
+	// . . % . . - игрок
+	// . .   . . 
+	// . . . . .
+	// . . . . .
+
 	Player p(2, 1);
 
 	Game g{};
@@ -137,6 +185,13 @@ TEST(playerMoves, DoorOnTile) {
 	g.handle_event('A');
 
 	ASSERT_EQ(g.dungeon[0][2], '%');
+	// проверяем что игрок вышел
+	// . . % . . - игрок
+	// . .   . .
+	// . .   . . 
+	// . . . . .
+	// . . . . .
+
 }
 
 
@@ -156,6 +211,13 @@ TEST(playerMoves, NotAnArrowKey) {
 	map_[0][2] = '#';
 	map_[1][2] = '.';
 	map_[2][2] = '%';
+	
+	// делаем карту 5 на 5
+	// . . # . . - дверь
+	// . . . . . - стена
+	// . . % . . - игрок
+	// . . . . .
+	// . . . . .
 
 	Player p(2, 2);
 
@@ -169,4 +231,10 @@ TEST(playerMoves, NotAnArrowKey) {
 
 	ASSERT_EQ(g.dungeon[1][2], '.');
 	ASSERT_EQ(g.dungeon[2][2], '%');
+	// проверяем на игнорирование случайной клавиши
+	// . . # . . - дверь
+	// . . . . . - стена
+	// . . % . . - игрок
+	// . . . . .
+	// . . . . .
 }
