@@ -80,6 +80,7 @@ void print_title(char *title) {
 
 	// вывод отступов
 	std::cout << "\033[2J";
+	//clear();
 	for (int i=0;i<pad_y;i++) {
 		std::cout << std::endl;
 	}
@@ -89,13 +90,14 @@ void print_title(char *title) {
 		std::cout << " ";
 	}
 
-	std::cout << title;
+	std::cout << title << std::endl;
 
 	// вывод отступов
-	std::cout << std::endl;
 	for (int i=0;i<pad_y;i++) {
 		std::cout << std::endl;
 	}
+
+	sleep_mil(10);
 }
 
 
@@ -188,6 +190,7 @@ void Player::update_position(int new_x, int new_y, char **map, int map_height, i
 
 	if ((new_x >= map_width) || (new_x <= 0)) {
 		if (tile == EXIT_S) {
+			endwin();
 			print_title((char *)"You win!");
 			exit(0);
 		} else {
@@ -196,6 +199,7 @@ void Player::update_position(int new_x, int new_y, char **map, int map_height, i
 	}
 	if ((new_y >= map_height) || (new_y <= 0)) {
 		if (tile == EXIT_S) {
+			endwin();
 			print_title((char *)"You win!");
 			exit(0);
 		} else {
@@ -214,6 +218,7 @@ void Player::update_position(int new_x, int new_y, char **map, int map_height, i
 		reduce_health();
 
 		if (is_dead() == true) {
+			endwin();
 			print_title((char *)"You lost!");
 			exit(0);
 		}
@@ -289,11 +294,9 @@ void Game::print_dungeon() {
 void Game::handle_event(char pressed_c) {
 
 	if (pressed_c == 'q') {
+		endwin();
 		exit(0);
 	}
-
-	int x = this->player.pos_x;
-	int y = this->player.pos_y;
 
 	std::tuple<int, int> new_pos = get_player_move_by_key(pressed_c);
 	
@@ -305,6 +308,9 @@ void Game::handle_event(char pressed_c) {
 		this->dungeon,
 		this->board_height, this->board_width
 	);
+
+	print_dungeon();
+	shuffle_enemies();
 }
 
 std::tuple<int, int> Game::get_player_move_by_key(char c) {
@@ -480,14 +486,14 @@ int run_game_loop() {
 	Screen screen(game);
 
 	while (true) {
-		game.print_dungeon();
+		//game.print_dungeon();
 
 		c  = getch();
 		game.handle_event(c);
 
 		sleep_mil(100);
 
-		game.shuffle_enemies();
+		//game.shuffle_enemies();
 	}
 	return 0;
 }
