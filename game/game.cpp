@@ -260,7 +260,7 @@ Game::Game() {
 Game::~Game() {}
 
 void Game::print_dungeon() {
-	std::tuple<int,int> pads = get_pads(this->board_width*2, this->board_height);
+	std::tuple<int,int> pads = get_pads(this->board_width*2, this->board_height+2);
 
 	int pad_x = gfp(pads, 0);
 	int pad_y = gfp(pads, 1);
