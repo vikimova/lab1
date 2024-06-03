@@ -239,7 +239,6 @@ void Player::update_position(int new_x, int new_y, char **map, int map_height, i
 Game::Game() {
 	board_width = randint(15, 30);
 	board_height = randint(15, 30);
-	clock = 0;
 
 	dungeon = new char*[board_height];
 
@@ -293,8 +292,6 @@ void Game::print_dungeon() {
 }
 
 void Game::handle_event(char pressed_c) {
-	print_dungeon();
-
 	if (pressed_c == 'q') {
 		endwin();
 		exit(0);
@@ -310,12 +307,6 @@ void Game::handle_event(char pressed_c) {
 		this->dungeon,
 		this->board_height, this->board_width
 	);
-
-	this->clock += 1;
-	if (this->clock == 600) {
-		shuffle_enemies();
-		this->clock = 0;
-	}
 }
 
 std::tuple<int, int> Game::get_player_move_by_key(char c) {
@@ -486,12 +477,20 @@ int run_game_loop() {
     nodelay(stdscr, TRUE);
     scrollok(stdscr, TRUE);
 
+	int gclock = 0;
+
 	Game game;
 	Screen screen(game);
 
 	while (true) {
+		game.print_dungeon();
 		game.handle_event(getch());
 
+		gclock += 1;
+		if (gclock == 600) {
+			game.shuffle_enemies();
+			gclock = 0;
+		}
 	}
 	return 0;
 }
