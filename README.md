@@ -1,5 +1,5 @@
 [![CI/CD GitHub Actions](https://github.com/vikimova/lab1/actions/workflows/build.yml/badge.svg)](https://github.com/vikimova/lab1/actions/workflows/build.yml)
-[![Coverage Status](https://coveralls.io/repos/vikimova/lab1/badge.svg?branch=master)](https://coveralls.io/github/vikimova/lab1?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/vikimova/lab1/badge.svg?branch=main)](https://coveralls.io/github/vikimova/lab1?branch=main)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=alert_status)](https://sonarcloud.io/dashboard?id=vikimova_1)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=bugs)](https://sonarcloud.io/summary/new_code?id=vikimova_1)
 [![Code smells](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=code_smells)](https://sonarcloud.io/dashboard?id=vikimova_1)
