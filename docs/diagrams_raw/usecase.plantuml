@@ -30,18 +30,18 @@ User -> pk
 Enemy -> grp
 Enemy -> swp
 
-sbm .> sm
-swm .> sm
-sm .> gd
+sbm .> sm: <<extends>>
+swm .> sm: <<extends>>
+sm .> gd: <<extends>>
 
 
-grp .> up
-grp .> rds
+grp .> up: <<include>>
+grp .> rds: <<include>>
 
-pk .> up
-pk .> rds
-gd .> swp
+pk .> up: <<include>>
+pk .> rds: <<include>>
+gd .> swp: <<include>>
 
-qtg .> sm
+qtg .> sm: <<include>>
 
 @enduml
