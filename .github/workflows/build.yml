@@ -1,28 +1,64 @@
-name: SonarCloud
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened]
+name: CI/CD GitHub Actions
+on: [push]
 jobs:
-  build:
-    name: Build and analyze
+  gtest-tests:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - run: pip install --user cpp-coveralls
+      - run: sudo apt-get update -y && sudo apt-get install -y libgtest-dev
+      - run: cd game
+      - run: make test
+      - run: make run_test
+
+      - name: Coveralls
+        if: always()
+        run: coveralls -t ${{ secrets.COVERALLS_REPO_TOKEN }} --root . -E ".*external.*" -E ".*tests.*"
+
+  sonarcloud-check:
+    needs: gtest-tests
+    runs-on: ubuntu-latest
+    if: always()
     env:
+      SONAR_SCANNER_VERSION: 4.6.1.2450 # Find the latest version in the "Linux" link on this page:
+                                        # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
+      SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin' # See 'Supported distributions' for available options
+          java-version: '17'
+      - run: sudo apt-get update -y && sudo apt-get install -y libgtest-dev
+      - run: cd game
+      - run: make test
+      - name: Set up Python 3.8 for gcovr
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+      - name: install gcovr 5.0
+        run: |
+          pip install gcovr==5.0 # 5.1 is not supported
       - name: Install sonar-scanner and build-wrapper
         uses: SonarSource/sonarcloud-github-c-cpp@v2
       - name: Run build-wrapper
         run: |
-          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }}<insert_your_clean_build_command>
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
+      - name: Run tests to generate coverage statistics
+      - run: make run_test
+      - name: Collect coverage into one XML report
+        run: |
+          gcovr --sonarqube > coverage.xml
       - name: Run sonar-scanner
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Put the name of your token here
         run: |
-          sonar-scanner --define sonar.cfamily.compile-commands="${{ env.BUILD_WRAPPER_OUT_DIR }}/compile_commands.json"
+          sonar-scanner \
+            --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" \
+            --define sonar.coverageReportPaths=coverage.xml
