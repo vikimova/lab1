@@ -1,31 +1,35 @@
 @startuml
 !theme mars
 
-actor Player as p
+participant Player as p
 participant Game as g
 participant Screen as s
+participant Enemy as e
 
-p->g: press_key
 
-
-alt Door on tile
+loop key != 'q'
+  p->g: press_key
+  alt Door on tile
     p->s: Show win screen
     s->p: Updated screen
     p->g: exit
-else Enemy on tile
+  else Enemy on tile
     g->p: Decrease health
     alt Health is 0
       p->s: Show loose screen
       s->p: Updated screen
       p->g: exit
     end
-else Tile is empty
+  else Tile is empty
     g->g: Update player position
+    g->e: Shuffle position
+    e->g: Updated position
     g->s: Update screen
     s->p: Updated screen
-else Wall on tile
+  else Wall on tile
+    g->e: Shuffle position
+    e->g: Updated position
     g->p: Position update declined
+  end
 end
-
 @enduml
-
