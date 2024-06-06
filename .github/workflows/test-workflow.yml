@@ -47,7 +47,7 @@ jobs:
         run: |
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} make
       - name: Run tests to generate coverage statistics
-      - run: make run_test
+        run: make run_test
       - name: Collect coverage into one XML report
         run: |
           gcovr --sonarqube > coverage.xml
@@ -59,3 +59,4 @@ jobs:
           sonar-scanner \
             --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}" \
             --define sonar.coverageReportPaths=coverage.xml
+
