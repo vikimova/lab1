@@ -9,10 +9,11 @@ jobs:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - run: pip install --user cpp-coveralls
       - run: sudo apt-get update -y && sudo apt-get install -y libgtest-dev
-        working-directory: ./game
       - run: ls -la
       - run: make test
+        working-directory: ./game
       - run: make run_test
+        working-directory: ./game
       - name: Coveralls
         if: always()
         run: coveralls -t ${{ secrets.COVERALLS_REPO_TOKEN }} --root . -E ".*tests.*"
@@ -33,8 +34,8 @@ jobs:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '17'
       - run: sudo apt-get update -y && sudo apt-get install -y libgtest-dev
-        working-directory: ./game
       - run: make test
+        working-directory: ./game
       - name: Set up Python 3.8 for gcovr
         uses: actions/setup-python@v4
         with:
