@@ -16,6 +16,7 @@ jobs:
         working-directory: ./game
       - name: Coveralls
         if: always()
+        working-directory: ./game
         run: coveralls -t ${{ secrets.COVERALLS_REPO_TOKEN }} --root . -E ".*tests.*"
   sonarcloud-check:
     needs: gtest-tests
