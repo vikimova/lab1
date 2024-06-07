@@ -1,8 +1,8 @@
 [![CI/CD GitHub Actions](https://github.com/vikimova/lab1/actions/workflows/test-workflow.yml/badge.svg)](https://github.com/vikimova/lab1/actions/workflows/test-workflow.yml)
 [![Coverage Status](https://coveralls.io/repos/github/vikimova/lab1/badge.svg?branch=main)](https://coveralls.io/github/vikimova/lab1?branch=main)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=alert_status)](https://sonarcloud.io/dashboard?id=vikimova_1)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=vikimova_1)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=bugs)](https://sonarcloud.io/summary/new_code?id=vikimova_1)
-[![Code smells](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=code_smells)](https://sonarcloud.io/dashboard?id=vikimova_1)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=coverage)](https://sonarcloud.io/summary/new_code?id=vikimova_1)
 
 # Автор:
 Виктория Ефимова
