@@ -1,8 +1,8 @@
 [![CI/CD GitHub Actions](https://github.com/vikimova/lab1/actions/workflows/test-workflow.yml/badge.svg)](https://github.com/vikimova/lab1/actions/workflows/test-workflow.yml)
 [![Coverage Status](https://coveralls.io/repos/github/vikimova/lab1/badge.svg?branch=main)](https://coveralls.io/github/vikimova/lab1?branch=main)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=alert_status&branch=master)](https://sonarcloud.io/summary/new_code?id=vikimova_1&branch=master)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=bugs&branch=master)](https://sonarcloud.io/summary/new_code?id=vikimova_1&branch=master)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=coverage&branch=master)](https://sonarcloud.io/summary/new_code?id=vikimova_1&branch=master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=alert_status&branch=main)](https://sonarcloud.io/summary/new_code?id=vikimova_1&branch=main)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=bugs&branch=main)](https://sonarcloud.io/summary/new_code?id=vikimova_1&branch=main)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=vikimova_1&metric=coverage&branch=main)](https://sonarcloud.io/summary/new_code?id=vikimova_1&branch=main)
 
 # Автор:
 Виктория Ефимова
