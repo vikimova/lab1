@@ -17,7 +17,7 @@ jobs:
       - name: Coveralls
         if: always()
         working-directory: ./game
-        run: coveralls -t ${{ secrets.GITHUB_TOKEN}} # --root . -E ".*tests.*"
+        run: coveralls -t ${{ secrets.GITHUB_TOKEN}} ./tests/* # --root . -E ".*tests.*"
   sonarcloud-check:
     needs: gtest-tests
     runs-on: ubuntu-latest
