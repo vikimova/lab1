@@ -19,6 +19,7 @@ jobs:
         working-directory: ./game
         run: coveralls -t ${{ secrets.GITHUB_TOKEN}} # --root . -E ".*tests.*"
   sonarcloud-check:
+    working-directory: ./game
     needs: gtest-tests
     runs-on: ubuntu-latest
     if: always()
@@ -36,7 +37,7 @@ jobs:
           java-version: '17'
       - run: sudo apt-get update -y && sudo apt-get install -y libgtest-dev libgmock-dev
       - run: make test
-        working-directory: ./game
+      # working-directory: ./game
       - name: Set up Python 3.8 for gcovr
         uses: actions/setup-python@v4
         with:
@@ -47,11 +48,14 @@ jobs:
       - name: Install sonar-scanner and build-wrapper
         uses: SonarSource/sonarcloud-github-c-cpp@v2
       - name: Run build-wrapper
+      # working-directory: ./game
         run: |
           build-wrapper-linux-x86-64 --out-dir out make # ${{ env.BUILD_WRAPPER_OUT_DIR }} make
       - name: Run tests to generate coverage statistics
+      # working-directory: ./game
         run: make run_test
       - name: Collect coverage into one XML report
+      # working-directory: ./game
         run: |
           gcovr --sonarqube > coverage.xml
       - name: Run sonar-scanner
